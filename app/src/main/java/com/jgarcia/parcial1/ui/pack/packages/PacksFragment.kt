@@ -5,56 +5,70 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.jgarcia.parcial1.R
+import com.jgarcia.parcial1.data.model.PackModel
+import com.jgarcia.parcial1.databinding.FragmentPacksBinding
+import com.jgarcia.parcial1.ui.pack.packages.recyclerview.PackRecyclerViewAdapter
+import com.jgarcia.parcial1.ui.pack.viewmodel.PackViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [PacksFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class PacksFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private val packViewModel: PackViewModel by activityViewModels{
+        PackViewModel.Factory
+    }
+
+    //instanciación de binding y recyclerview
+
+    private lateinit var binding: FragmentPacksBinding
+    private lateinit var adapter: PackRecyclerViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_packs, container, false)
+        binding = FragmentPacksBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment PacksFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            PacksFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    //seteo del recycler view y click listener para boton de navegación hacia pantalla de añadir paquete
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setRecyclerView(view)
+        binding.addbutton.setOnClickListener{
+            packViewModel.clearData()
+            it.findNavController().navigate(R.id.action_packsFragment_to_addPackFragment)
+        }
+    }
+
+    //Mostrar paquete seleccionado en otra ventana y llamado a función de viewmodel que extrae solo uno de la lista
+    private fun showSelectedPack(pack:PackModel){
+        packViewModel.selectedPackage(pack)
+        findNavController().navigate(R.id.action_packsFragment_to_packageFragment)
+    }
+
+
+    //Función que obtiene y coloca los paquetes en los items del recyclerview
+    private fun displayPacks(){
+        adapter.setData(packViewModel.getPacks())
+        adapter.notifyDataSetChanged()
+    }
+
+    private fun setRecyclerView(view:View){
+        //toda la configuración del click y de la muestra de itesm del recycler view
+        binding.recyclerView.layoutManager = LinearLayoutManager(view.context)
+
+        adapter = PackRecyclerViewAdapter { selectedPack->
+            showSelectedPack(selectedPack)
+        }
+        binding.recyclerView.adapter=adapter
+        displayPacks()
     }
 }
