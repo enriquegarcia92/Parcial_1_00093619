@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/packsFragment">
+
+    <fragment
+        android:id="@+id/packsFragment"
+        android:name="com.jgarcia.parcial1.ui.pack.packages.PacksFragment"
+        android:label="fragment_packs"
+        tools:layout="@layout/fragment_packs" >
+        <action
+            android:id="@+id/action_packsFragment_to_addPackFragment"
+            app:destination="@id/addPackFragment" />
+        <action
+            android:id="@+id/action_packsFragment_to_packageFragment"
+            app:destination="@id/packageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addPackFragment"
+        android:name="com.jgarcia.parcial1.ui.pack.addpackage.AddPackFragment"
+        android:label="fragment_add_pack"
+        tools:layout="@layout/fragment_add_pack" >
+        <action
+            android:id="@+id/action_addPackFragment_to_packsFragment"
+            app:destination="@id/packsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/packageFragment"
+        android:name="com.jgarcia.parcial1.ui.PackageFragment"
+        android:label="fragment_package"
+        tools:layout="@layout/fragment_package" >
+        <action
+            android:id="@+id/action_packageFragment_to_packsFragment"
+            app:destination="@id/packsFragment" />
+    </fragment>
+</navigation>

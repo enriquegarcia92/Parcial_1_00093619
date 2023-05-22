@@ -20,7 +20,7 @@ class PackViewModel (private val repository: PackRepository): ViewModel() {
         repository.addPack(pack)
     }
 
-    fun createPack(){
+    public fun createPack(){
         if(!validateData()){
             status.value = WRONG_INFORMATION
             return

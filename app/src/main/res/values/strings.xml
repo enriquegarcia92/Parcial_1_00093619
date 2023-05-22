@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Parcial1</string>
+    <string name="new_pack_text">Add New Package</string>
+    <string name="pack_tracker_text">Package Tracker</string>
+    <string name="hint_nombre">Nombre</string>
+    <string name="price_hint">Precio</string>
+    <string name="submit_text">Submit</string>
+    <string name="package_name">Nombre Paquete</string>
 </resources>

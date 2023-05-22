@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="default_gap">16dp</dimen>
+    <dimen name="tittle_size">32sp</dimen>
+    <dimen name="default_radious">15dp</dimen>
+</resources>
